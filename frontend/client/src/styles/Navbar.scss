@@ -1,0 +1,44 @@
+
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    margin : 0 15px;
+    font-family: cursive;
+
+    button{
+        padding: 8px 12px;
+        letter-spacing: 1px;
+        font-size: 18px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .outline{
+        border-color: green;
+        background: none;
+    }
+    .contain{
+        border:none;
+        padding-top:10px;
+        padding-bottom: 10px;
+        background-color: #60c3ad;
+        color: white;
+    }
+
+    .logo{
+        font-family: cursive;
+        cursor: pointer;
+    }
+    .left  {
+        display: flex;
+        align-items: center;
+         gap: 20px;
+          a {
+            text-decoration: none;
+            font-size: 18px;
+            color: black;
+        } a:hover{
+            text-decoration: underline;
+        }
+    }
+}

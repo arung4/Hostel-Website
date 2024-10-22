@@ -1,0 +1,98 @@
+.search-filter {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  
+    h2 {
+      margin-bottom: 20px;
+      color: #14b8a6;
+    }
+  
+    .form-group {
+      margin-bottom: 15px;
+  
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #2c3e50;
+      }
+  
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+        transition: border-color 0.3s ease;
+  
+        &:focus {
+          border-color: #3498db;
+        }
+      }
+  
+      .dynamic-input {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+  
+        button {
+          background-color: #14b8a6;
+          color: white;
+          border: none;
+          padding: 10px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+  
+          &:hover {
+            background-color: #2980b9;
+          }
+        }
+      }
+  
+      .amenities-list,
+      .services-list {
+        .amenity-item,
+        .service-item {
+          display: flex;
+          justify-content: space-between;
+          background-color: #ecf0f1;
+          padding: 5px 10px;
+          border-radius: 5px;
+          margin-bottom: 5px;
+  
+          button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 3px 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+  
+            &:hover {
+              background-color: #c0392b;
+            }
+          }
+        }
+      }
+    }
+  
+    .submit-btn {
+      padding: 10px 20px;
+      background-color: #14b8a6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #0f8a7b;
+      }
+    }
+  }
+  

@@ -1,0 +1,80 @@
+.update-profile-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+  
+    .profile-image {
+      margin-bottom: 20px;
+  
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+  
+      .image-placeholder {
+        width: 100px;
+        height: 100px;
+        background-color: #ddd;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        color: #777;
+      }
+  
+      input[type="file"] {
+        display: block;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+    }
+  
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+  
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #3498db;
+      }
+  
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #3498db;
+        border-radius: 5px;
+        outline: none;
+        transition: border-color 0.3s ease;
+  
+        &:focus {
+          border-color: #2ecc71;
+        }
+      }
+    }
+  
+    .submit-btn {
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #2980b9;
+      }
+    }
+  }
+  

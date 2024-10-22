@@ -1,0 +1,40 @@
+.media-upload {
+    h2 {
+      margin-bottom: 20px;
+      color: #3498db;
+    }
+  
+    .upload-container {
+      margin-bottom: 20px;
+  
+      .upload-label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: #3498db;
+      }
+  
+      input[type='file'] {
+        display: block;
+        margin-bottom: 20px;
+      }
+    }
+  
+    .media-preview {
+      .image-preview,
+      .video-preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+  
+        img,
+        video {
+          width: 100px;
+          height: 100px;
+          object-fit: cover;
+          border-radius: 8px;
+        }
+      }
+    }
+  }
+  

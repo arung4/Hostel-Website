@@ -1,0 +1,73 @@
+// Variables
+$primary-color: #60c3ad;
+$secondary-color: #2ecc71;
+$text-color: #fff;
+$border-radius: 5px;
+$input-padding: 10px;
+
+.form{
+    display: flex;
+    justify-content: center;
+    gap:100px;
+
+    img{
+        border-radius: 8px;
+    }
+}
+
+.login-form {
+
+  background-color: #fff;
+  padding: 40px;
+  border-radius: $border-radius;
+//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  text-align: center;
+
+  h1 {
+    margin-bottom: 20px;
+    color: $primary-color;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: $primary-color;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: $input-padding;
+      border: 1px solid $primary-color;
+      border-radius: $border-radius;
+      outline: none;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        border-color: $secondary-color;
+      }
+    }
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: $input-padding;
+    background-color: $primary-color;
+    border: none;
+    color: $text-color;
+    font-size: 16px;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+}
