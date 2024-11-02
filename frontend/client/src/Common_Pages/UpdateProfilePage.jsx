@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
 import '../styles/UpdateProfile.scss'; // Import your Sass styles
-import Myimage from "../images/myimage.jpg";
 import Navbar from '../components/Navbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { USER_API_END_POINT } from '../utils/constant';
+import { setLoading, setUser } from "../redux/authslice.js";
+
+const UpdateProfile = () => {
+
+  const {loading, user} = useSelector((store) => store.auth); 
+
+  const dispatch= useDispatch(); 
+  const navigate = useNavigate(); 
 
 
-const UpdateProfile = ({ user, onProfileUpdate }) => {
   const [input, setInput] = useState({
-    username: "Arun Parihar", //  user.username,
-    email:    "arunsinghparihar3219@gmail.com", // user.email,
-    phoneNumber:  "9302481268",  // user.phoneNumber,
-    password: 'password123@',  // user.password
-    role: "student" , //user.role,
-    profileImage: "sadf" , // user.profileImage,
+    username: user?.username || '', 
+    email:    user?.email || '',
+    phoneNumber:  user?.phoneNumber || '',  
+    password: user?.password || '',
+    role: user?.role  || '',
+    file: user?.profile || '', 
   });
 
   // Change event handler for form fields
@@ -22,28 +32,48 @@ const UpdateProfile = ({ user, onProfileUpdate }) => {
 
   // Handle profile image change
   const handleImageUpload = (e) => {
-    setInput({ ...input, profileImage: URL.createObjectURL(e.target.files[0]) });
+    setInput({ ...input, file: e.target.files?.[0] });
   };
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     console.log(input);
-//     // You can send the updated data to the server here
-//     onProfileUpdate(input); // Trigger parent function to update the profile
-//   };
+  const handleProfileUpdate = async (e) => {
+    e.preventDefault(); 
+    console.log(input);
+    try {
+      dispatch(setLoading(true));
+      const res = await axios.put(`${USER_API_END_POINT}/profile/update`, input, {
+          headers: { 'Content-Type': "multipart/form-data" },
+          withCredentials: true,
+      });
+      if (res && res.data.success) {
+        dispatch(setUser(res.data.user)); 
+        navigate("/");
+        alert(res.data.message);
+    } else {
+        throw new Error('Unexpected response structure');
+    }
+  }catch (error) {
+    console.error(error);
+    alert(error.response?.data?.message || 'An error occurred');
+     // toast.error(error.response.data.message);
+ } finally{
+   // loading stops as update completed
+   alert("completed");
+    dispatch(setLoading(false));
+  }
+  }
 
   return (
      <>
       <Navbar/>
       
       <div className="update-profile-container">
-      <form className="update-profile-form" >
+      <form className="update-profile-form" onSubmit={handleProfileUpdate} >
         <h2>Update Profile</h2>
 
         {/* Profile Image */}
         <div className="profile-image">
-          {input.profileImage ? (
-            <img src={Myimage} alt="Profile" />
+          {user.profile ? (
+            <img src={user.profile} alt="Profile" />
           ) : (
             <div className="image-placeholder">No Image</div>
           )}
@@ -56,7 +86,7 @@ const UpdateProfile = ({ user, onProfileUpdate }) => {
           <input
             type="text"
             name="username"
-            value={input.username}
+            value={user.username}
             onChange={changeEventHandler}
             required
           />
@@ -68,7 +98,7 @@ const UpdateProfile = ({ user, onProfileUpdate }) => {
           <input
             type="email"
             name="email"
-            value={input.email}
+            value={user.email}
             onChange={changeEventHandler}
             required
           />
@@ -80,7 +110,7 @@ const UpdateProfile = ({ user, onProfileUpdate }) => {
           <input
             type="text"
             name="phoneNumber"
-            value={input.phoneNumber}
+            value={user.phoneNumber}
             onChange={changeEventHandler}
             required
           />
@@ -92,7 +122,7 @@ const UpdateProfile = ({ user, onProfileUpdate }) => {
           <input
             type="password"
             name="password"
-            value={input.password}
+            value={user.password}
             onChange={changeEventHandler}
           />
         </div>

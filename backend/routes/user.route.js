@@ -8,10 +8,10 @@ import isAuthenticated from "../middleware/isAuthenticated.js";
 const router = express.Router(); 
 
 
-router.route("/register").post(register);  // add singleupload
+router.route("/register").post(singleUpload,register);  // add singleupload
 router.route("/login").post(login); 
 router.route("/logout").get(logout);
-router.route("/profile/update").put(isAuthenticated, updateProfile);  //add singleupload
+router.route("/profile/update").put(isAuthenticated, singleUpload ,updateProfile);  //add singleupload
 
 
 export default router; 

@@ -9,14 +9,16 @@ const hostelSchema = new mongoose.Schema(
     landmark: { type: String },
     fullAddress: { type: String, required: true },
     type: { type: String, enum: ["male", "female"], required: true }, // Male or Female hostel
-    images: [ 
+    images: [
       {
         type: String,
-      }
+      },
     ], // URLs for images
-    videos: [{
-      type:String,
-    }], // URLs for videos
+    videos: [
+      {
+        type: String,
+      },
+    ], // URLs for videos
     occupancy: [
       {
         type: {
@@ -29,18 +31,21 @@ const hostelSchema = new mongoose.Schema(
         roomSize: { type: String }, // E.g., '12x12', '15x20'
       },
     ],
-    amenities: [String], // List of facilities (Wi-Fi, laundry, meals, etc.)
-    services: [String], // E.g., daily cleaning, etc.
+    amenities: {
+      type: String,
+    }, // List of facilities (Wi-Fi, laundry, meals, etc.)
+    services: { type: String }, // E.g., daily cleaning, etc.
     description: { type: String }, // Hostel description
     policyHouseRules: { type: String }, // Hostel policies
     coordinates: {
       latitude: { type: Number },
       longitude: { type: Number },
     },
-    owner: { 
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: "User", 
-      required: true }, // Reference to the hostel owner
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    }, // Reference to the hostel owner
     foodMenu: [
       {
         day: { type: Number, enum: [1, 2, 3, 4, 5, 6, 7], required: true }, // Day 1 to Day 7

@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar.jsx";
 import "../styles/Login.scss";
-import Student from "../images/Students.jpg"; 
+import Student from "../images/students.avif"; 
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { USER_API_END_POINT } from "../utils/constant.js";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading, setUser } from "../redux/authslice.js";
+
 
 const Login = () => {
     const [input,setInput] = useState({
@@ -9,17 +15,55 @@ const Login = () => {
       password: "",
       role: "student",
     })
-
+    const {loading, user}= useSelector((store)=>store.auth); 
+    const navigate = useNavigate();
+    const dispatch=useDispatch(); 
     // changeEventHandler function 
     const changeEventHandler = (e) => {
       setInput({...input, [e.target.name]: e.target.value });
     };  
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({ email, password, role });
-    // Add your login logic here
-  };
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      console.log(input);
+  
+      try {
+        // loading starts until login completes
+        dispatch(setLoading(true));
+        const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        });
+
+        if (res.data.success) {
+          dispatch(setUser(res.data.user));
+          alert(res.data.message);
+            // to display success message
+            // toast.success(res.data.message);
+        }
+    } catch (error) {
+        console.log(error);
+        alert(error.response.data.message);
+        // toast.error(error.response.data.message);
+    } finally{
+      // loading stops as login completed
+       dispatch(setLoading(false));
+     }
+     }
+
+ 
+     useEffect(() => {
+      if (user) {
+        // Check user role and navigate accordingly
+        if (user.role === "owner") {
+          navigate("/owner/profile");
+        } else {
+          navigate("/");
+        }
+      }
+    }, [user, navigate]);
 
   return (
     <>
@@ -37,6 +81,7 @@ const Login = () => {
             value={input.email}
             onChange={changeEventHandler}
             placeholder="your@gmail.com"
+            required
           />
         </div>
 
@@ -49,6 +94,7 @@ const Login = () => {
             value={input.password}
             onChange={changeEventHandler}
             placeholder="Enter your password"
+            required
           />
         </div>
 

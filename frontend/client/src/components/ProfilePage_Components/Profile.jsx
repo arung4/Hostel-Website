@@ -1,27 +1,25 @@
 import React from 'react';
 import '../../styles/Profile.scss'; // Import your Sass styles
-import Myimage from "../../images/myimage.jpg";
+import { USER_API_END_POINT } from '../../utils/constant.js';
+import { setLoading, setUser } from "../../redux/authslice.js"
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
 
-    const user = {
-        username: 'Arun Parihar',
-        email: 'arusninghparihar3219@gmail.com',
-        phoneNumber: '+91 9302481268',
-        role: 'Student',
-        profileImage: "aj"// Replace with actual profile image URL
-    };
-
+  const {loading, user}= useSelector((store)=>store.auth); 
+  console.log("  user is ", user); 
+   console.log("user profile ", user.profile);
   // Your code here
   return (
     <div className="profile-container">
       <div className="profile-info">
-        <h2>Arun's Profile</h2>
+        <h2>{user.username} Profile</h2>
 
         {/* Profile Image */}
         <div className="profile-image">
-          {user.profileImage ? (
-            <img src={Myimage} alt="Profile" />
+          {user.profile ? (
+            <img src={user.profile} alt="Profile" />
           ) : (
             <div className="image-placeholder">No Image</div>
           )}
@@ -33,12 +31,16 @@ const Profile = () => {
           <p><strong>Email:</strong> {user.email}</p>
           <p><strong>Phone Number:</strong>{user.phoneNumber}</p>
           <p><strong>Role:</strong>{user.role}</p>
+          <p><strong>Id:</strong>{user._id}</p>
         </div>
 
         {/* Update Profile Button */}
+        <Link to="/profile/update">
         <button className="submit-btn">
           Update Profile
         </button>
+        </Link>
+      
       </div>
     </div>
   );

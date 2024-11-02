@@ -1,77 +1,63 @@
 import React, { useState } from 'react';
 import  '../styles/SearchFilter.scss';
+import axios from 'axios';
+import { HOSTEL_API_END_POINT } from '../utils/constant';
+import { useDispatch, useSelector } from 'react-redux';
+import {setFilterHostel} from "../redux/authslice.js";
 
-const SearchFilter = ({ onFilterChange }) => {
+const SearchFilter = () => {
+  const { filterHostel } = useSelector((store) => store.auth);
+  // const { loading, hostel, hostels } = useSelector((store) => store.auth);
+  const dispatch=useDispatch();
+
   const [filters, setFilters] = useState({
-    name: '',
-    city: '',
-    locality: '',
-    landmark: '',
-    gender: 'all',
-    amenities: [],
-    services: [],
-    budget: '',
-    occupancy: '',
-    studentTypes: [],
+    name: "",
+    city: "",
+    locality: "",
+    landmark: "",
+    type: 'all',
+    amenities: "",
+    services: "",
+    occupancy: "",
+    priceMin:"",
+    priceMax:"",
+    studentType:"",
   });
-
-  const [amenityInput, setAmenityInput] = useState('');
-  const [serviceInput, setServiceInput] = useState('');
 
   // Handle input change for simple fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilters({ ...filters, [name]: value });
-    onFilterChange({ ...filters, [name]: value });
   };
 
-  // Add amenity to list
-  const addAmenity = () => {
-    if (amenityInput.trim()) {
-      setFilters({ ...filters, amenities: [...filters.amenities, amenityInput] });
-      setAmenityInput('');
+  const handleSearch = async (e) => {
+    e.preventDefault();
+      
+    try {
+      const queryParams = new URLSearchParams({
+        ...filters,
+        type: filters.type !== 'all' ? filters.type : '',
+      });
+  
+      // Send GET request to backend
+      const res = await axios.get(`${HOSTEL_API_END_POINT}/search?${queryParams}`, {
+        withCredentials: true,
+      });
+      if(res){
+         alert(res.data.message);
+         dispatch(setFilterHostel(res.data.hostels));
+      }
+    } catch (error) {
+        alert(error.response.data.message);
     }
   };
 
-  // Add service to list
-  const addService = () => {
-    if (serviceInput.trim()) {
-      setFilters({ ...filters, services: [...filters.services, serviceInput] });
-      setServiceInput('');
-    }
-  };
-
-  // Remove amenity
-  const removeAmenity = (index) => {
-    const newAmenities = filters.amenities.filter((_, i) => i !== index);
-    setFilters({ ...filters, amenities: newAmenities });
-  };
-
-  // Remove service
-  const removeService = (index) => {
-    const newServices = filters.services.filter((_, i) => i !== index);
-    setFilters({ ...filters, services: newServices });
-  };
- 
-  // handle student type change 
-  const handleStudentTypeChange = (index, e) => {
-    const { name, value } = e.target;
-    const updatedStudentTypes = [...filters.studentTypes];
-    updatedStudentTypes[index][name] = value;
-    setFilters({ ...filters, studentTypes: updatedStudentTypes });
-  };
-// add student type 
-  const addStudentType = () => {
-    setFilters({
-      ...filters,
-      studentTypes: [...filters.studentTypes, { category: '', number: '' }],
-    });
-  };
   return (
-    <div className="search-filter">
+    <form className="search-filter" onSubmit={handleSearch}>
       <h2>Search for Hostels</h2>
-
-      {/* Search by Name */}
+       
+    <div className="groups">
+              {/* Search by Name */}
       <div className="form-group">
         <label htmlFor="name">Hostel Name</label>
         <input type="text" name="name" value={filters.name} onChange={handleChange} />
@@ -94,11 +80,14 @@ const SearchFilter = ({ onFilterChange }) => {
         <label htmlFor="landmark">Landmark</label>
         <input type="text" name="landmark" value={filters.landmark} onChange={handleChange} />
       </div>
-
+        </div>
+      
+      <div className="groups">
+            
       {/* Gender Filter */}
       <div className="form-group">
-        <label htmlFor="gender">Gender</label>
-        <select name="gender" value={filters.gender} onChange={handleChange}>
+        <label htmlFor="type">Type</label>
+        <select name="type" value={filters.type} onChange={handleChange}>
           <option value="all">All</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
@@ -107,63 +96,44 @@ const SearchFilter = ({ onFilterChange }) => {
 
       {/* Amenities - Dynamic Field */}
       <div className="form-group">
-        <label htmlFor="amenities">Amenities</label>
-        <div className="dynamic-input">
+      <div className="form-group">
+          <label htmlFor="amenities">Amenities</label>
           <input
             type="text"
-            placeholder="Add amenity"
-            value={amenityInput}
-            onChange={(e) => setAmenityInput(e.target.value)}
+            name="amenities"
+            value={filters.amenities}
+            onChange={handleChange}
+            placeholder="E.g., Wi-Fi, Laundry"
           />
-          <button type="button" onClick={addAmenity}>
-            Add
-          </button>
-        </div>
-        <div className="amenities-list">
-          {filters.amenities.map((amenity, index) => (
-            <div key={index} className="amenity-item">
-              {amenity}
-              <button type="button" onClick={() => removeAmenity(index)}>
-                Remove
-              </button>
-            </div>
-          ))}
         </div>
       </div>
 
       {/* Services - Dynamic Field */}
+    
       <div className="form-group">
-        <label htmlFor="services">Services</label>
-        <div className="dynamic-input">
+          <label htmlFor="services">Services</label>
           <input
             type="text"
-            placeholder="Add service"
-            value={serviceInput}
-            onChange={(e) => setServiceInput(e.target.value)}
+            name="services"
+            value={filters.services}
+            onChange={handleChange}
+            placeholder="E.g., Daily cleaning"
           />
-          <button type="button" onClick={addService}>
-            Add
-          </button>
         </div>
-        <div className="services-list">
-          {filters.services.map((service, index) => (
-            <div key={index} className="service-item">
-              {service}
-              <button type="button" onClick={() => removeService(index)}>
-                Remove
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* Budget Filter */}
       <div className="form-group">
-        <label htmlFor="budget">Budget</label>
-        <input type="number" name="budget" value={filters.budget} onChange={handleChange} />
+        <label htmlFor="PriceMin">Min Price</label>
+        <input type="number" name="priceMin" value={filters.priceMin} onChange={handleChange} />
+      </div>
+      <div className="form-group">
+        <label htmlFor="priceMax">Max Price</label>
+        <input type="number" name="priceMax" value={filters.priceMax} onChange={handleChange} />
+      </div>
       </div>
 
-      {/* Occupancy Filter */}
+      <div className="groups">
+                  {/* Occupancy Filter */}
       <div className="form-group">
         <label htmlFor="occupancy">Occupancy</label>
         <select name="occupancy" value={filters.occupancy} onChange={handleChange}>
@@ -175,33 +145,22 @@ const SearchFilter = ({ onFilterChange }) => {
       </div>
 
       {/* Student Types Filter */}
-      <div className="student-types">
-        <h3>Student Types</h3>
-        {filters.studentTypes.map((studentType, index) => (
-          <div key={index} className="student-type-group">
-            <input
-              type="text"
-              name="category"
-              placeholder="Category"
-              value={studentType.category}
-              onChange={(e) => handleStudentTypeChange(index, e)}
-            />
-            <input
-              type="number"
-              name="number"
-              placeholder="Number"
-              value={studentType.number}
-              onChange={(e) => handleStudentTypeChange(index, e)}
-            />
-          </div>
-        ))}
-        <button type="button" onClick={addStudentType}>Add Student Type</button>
-      </div>
+        <div className="form-group">
+          <label htmlFor="studentType">Student Type</label>
+          <input
+            type="text"
+            name="studentType"
+            value={filters.studentType}
+            onChange={handleChange}
+            placeholder="E.g. Engineering, Civil Services .."
+          />
+        </div>
+    </div>
 
       <button type="submit" className="submit-btn">
         Search
       </button>
-    </div>
+    </form>
   );
 };
 

@@ -1,0 +1,124 @@
+.whatsapp-notification {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5fdfb;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+    .tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+      margin-bottom: 20px;
+  
+      .tab {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        background-color: #eef7f5;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        color: #5b8e8a;
+  
+        &.active {
+          background-color: #59c4b7;
+          color: #fff;
+        }
+  
+        &:hover {
+          background-color: #42b3a5;
+          color: white;
+        }
+      }
+    }
+  
+    form {
+      .input-group {
+        margin: 15px 0;
+        padding: 10px 0; 
+        border: 2px solid  #59c4b7;
+        border-radius: 10px;
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+        align-items: center;
+        
+        .input{
+            border: 2px solid #59c4b7;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #fff;
+            width: 85%;
+            input{
+                color: grey;
+            }
+        }
+        input {
+          font-size: 16px;
+          border: none;
+          outline: none;
+        }
+       
+      }
+  
+      .mobile-input {
+        display: flex;
+        align-items: center;
+  
+        .flag {
+          margin-right: 10px;
+          font-size: 18px;
+        }
+      }
+  
+      .checkbox-group {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+  
+        input {
+          margin-right: 10px;
+        }
+  
+        label {
+          font-size: 14px;
+          color: #333;
+  
+          a {
+            color: #59c4b7;
+            text-decoration: underline;
+  
+            &:hover {
+              color: #45b0a4;
+            }
+          }
+        }
+      }
+  
+      .terms {
+        font-size: 13px;
+      }
+  
+      .submit-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #59c4b7;
+        border: none;
+        border-radius: 13px;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        letter-spacing: 1px;
+  
+        &:hover {
+          background-color: #45b0a4;
+        }
+      }
+    }
+  }
+  

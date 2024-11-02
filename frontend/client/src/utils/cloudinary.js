@@ -1,9 +1,11 @@
+
+
 export const uploadToCloudinary = async (file) => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'your_upload_preset'); // Replace with your Cloudinary preset
+    formData.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET); // Replace with your Cloudinary preset
   
-    const res = await fetch('https://api.cloudinary.com/v1_1/your_cloud_name/upload', {
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/upload`, {
       method: 'POST',
       body: formData,
     });

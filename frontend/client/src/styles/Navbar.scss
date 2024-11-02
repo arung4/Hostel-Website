@@ -14,15 +14,20 @@
         cursor: pointer;
     }
     .outline{
-        border-color: green;
+        border-color: #007BFF;
         background: none;
+        color: gray;
+        font-weight: 400;
     }
     .contain{
         border:none;
         padding-top:10px;
         padding-bottom: 10px;
-        background-color: #60c3ad;
+        background-color: #007BFF;
         color: white;
+    } 
+    .contain:hover{
+        opacity: 0.85;
     }
 
     .logo{

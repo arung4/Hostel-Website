@@ -20,13 +20,12 @@ app.use(express.urlencoded({extended: true }));
 app.use(cookieParser()); 
 
 // cors setup - to connect frontend 
-// const corsOptions = {
-//     origin: "http://localhost:5173",
-//     // origin: "https://job-junction-six.vercel.app", - Deployment 
-//     credentials: true,
-//   };
+const corsOptions = {
+    origin: "http://localhost:3000",
+    credentials: true,
+  };
   
-  // app.use(cors(corsOptions));
+  app.use(cors(corsOptions));
 
 
 // Api's 

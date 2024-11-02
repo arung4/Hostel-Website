@@ -1,23 +1,29 @@
-
-
-import {Hostel} from "../models/hostel.js" // Adjust this path based on your folder structure
-
-
+import { Hostel } from "../models/hostel.js";
 
 // 1. Add a new hostel
 export const addHostel = async (req, res) => {
   const {
-    name, city, locality, landmark, fullAddress, type,images,videos, occupancy,
-     amenities, services, description, policyHouseRules, coordinates, foodMenu, studentTypes
+    name,
+    city,
+    locality,
+    landmark,
+    fullAddress,
+    type,
+    occupancy,
+    amenities,
+    services,
+    description,
+    policyHouseRules,
+    coordinates,
+    foodMenu,
+    studentTypes,
+    images,
+    videos,
   } = req.body;
-
-  // take the images 
-
-  // take the videos 
-
+  console.log("body ", req.body);
   try {
     // Create a new hostel document
-    const newHostel = new Hostel({
+    const newHostel = await Hostel.create({
       name,
       city,
       locality,
@@ -36,16 +42,18 @@ export const addHostel = async (req, res) => {
       studentTypes,
       owner: req.Id, // Assuming you have the owner's ID stored in req.user (JWT)
     });
-    // Save the hostel in the database
-    await newHostel.save();
-    res.status(201).json({ hostel: newHostel });
+
+    console.log("New Hsotel", newHostel);
+    res.status(201).json({
+      hostel: newHostel,
+      message: "Hostel details saved successfully",
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong', error });
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
   }
 };
-
-
-
 
 // 2. Delete hostel data by ID
 export const deleteHostel = async (req, res) => {
@@ -56,62 +64,88 @@ export const deleteHostel = async (req, res) => {
     const deletedHostel = await Hostel.findByIdAndDelete(id);
 
     if (!deletedHostel) {
-      return res.status(404).json({ message: 'Hostel not found' });
+      return res.status(404).json({ message: "Hostel not found" });
     }
 
-    res.status(200).json({ message: 'Hostel deleted successfully' });
+    res.status(200).json({ message: "Hostel deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong', error });
+    console.error("Detailed error in addHostel function:", error); // Add this
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
   }
 };
-
-
-
 
 // 3. Update hostel data
 export const updateHostel = async (req, res) => {
-  const { id } = req.params; // Hostel ID
-  const updatedData = req.body; // Updated fields sent from the client
+  const hostelId = req.body.id.id;
+  const inputdata = req.body; // Updated fields sent from the client
 
   try {
     // Find the hostel by ID and update it with the provided data
-    const updatedHostel = await Hostel.findByIdAndUpdate(id, updatedData, { new: true });
-
+    const updatedHostel = await Hostel.findByIdAndUpdate(hostelId, inputdata, {
+      new: true,
+    });
     if (!updatedHostel) {
-      return res.status(404).json({ message: 'Hostel not found' });
+      return res.status(404).json({ message: "Hostel not found" });
     }
 
-    res.status(200).json({ hostel: updatedHostel });
+    res.status(200).json({
+      hostel: updatedHostel,
+      message: "Successfully updated the hostel details",
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong', error });
+    res.status(500).json({ message: "Something went wrong", error });
   }
 };
 
-
-
-
-// 4. Get hostels by filters
+// Get hostels by filters
 export const getHostelsByFilters = async (req, res) => {
-  const { city, locality, priceMin, priceMax, type, amenities } = req.query; // Filters from query params
-
+  const {
+    name,
+    city,
+    locality,
+    landmark,
+    type,
+    amenities,
+    services,
+    occupancy,
+    priceMin,
+    priceMax,
+    studentType,
+  } = req.query;
+   
+  console.log("req query : ", req.query);
   try {
-    // Build the query object dynamically based on the provided filters
     let filters = {};
+    if (name) filters.name = new RegExp(name, "i");
     if (city) filters.city = city;
     if (locality) filters.locality = locality;
-    if (type) filters.type = type;
-    if (amenities) filters.amenities = { $all: amenities.split(',') }; // Matches all amenities in the list
+    if (landmark) filters.landmark = landmark;
+    if (type && type !== "all") filters.type = type;
+    if (occupancy) filters.occupancy = occupancy;
+    if (amenities) filters.amenities = { $regex: amenities, $options: "i" };
+    if (services) filters.services = { $regex: services, $options: "i" };
+    if (priceMin && priceMax)
+      filters["occupancy.price"] = { $gte: priceMin, $lte: priceMax };
 
-    if (priceMin && priceMax) {
-      filters['occupancy.price'] = { $gte: priceMin, $lte: priceMax }; // Filter based on price range
+    if (studentType) {
+      filters["studentTypes.type"] = { $regex: studentType, $options: "i" };
     }
+    
+    console.log("Filters : ", filters);
 
-    // Query the database for hostels matching the filters
     const hostels = await Hostel.find(filters);
 
-    res.status(200).json({ hostels });
+    console.log("Hostels list: ", hostels);
+    res.status(200).json({
+       hostels,
+       message: "Hostels fetched successfully"
+       });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong', error });
+    res.status(500).json({ 
+      message: "Something went wrong",
+      error });
   }
 };
 
@@ -124,12 +158,11 @@ export const getHostelById = async (req, res) => {
     const hostel = await Hostel.findById(id);
 
     if (!hostel) {
-      return res.status(404).json({ message: 'Hostel not found' });
+      return res.status(404).json({ message: "Hostel not found" });
     }
 
-    res.status(200).json({ message:"Hosel found Successfully",
-         hostel });
+    res.status(200).json({ message: "Hosel found Successfully", hostel });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong', error });
+    res.status(500).json({ message: "Something went wrong", error });
   }
 };

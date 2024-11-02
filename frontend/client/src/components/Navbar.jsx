@@ -1,7 +1,32 @@
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Navbar.scss'; 
+import { useDispatch, useSelector } from 'react-redux'
+import { setUser } from "../redux/authslice.js"; 
 import Button from '@mui/material/Button';
+import axios from 'axios';
+import { USER_API_END_POINT } from '../utils/constant.js';
+
+
+
 function Navbar (){
-    const user=1; 
+    const { user } = useSelector(store => store.auth);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const logoutHandler = async () => {
+        try {
+            const res = await axios.get(`${USER_API_END_POINT}/logout`, { withCredentials: true });
+            if (res.data.success) {
+                dispatch(setUser(null));
+                navigate("/");
+                // toast.success(res.data.message);
+            }
+        } catch (error) {
+            console.log(error);
+            // toast.error(error.response.data.message);
+        }
+    }
+
     return (
         <div className="navbar">
             <div className="logo">
@@ -10,26 +35,27 @@ function Navbar (){
             <div className="left"> 
 
                 {
-                    user==1 ?  (
+                    !user ?  (
                         <>
-                     <a href="#">Home</a> 
-                     <a href="#">Search</a> 
-                    <button className='outline'>LogIn</button>
-                    <button className='contain'>SignUp</button>
+                        <Link to="/"><a href="">Home</a></Link>
+                        <Link to="/search"><a href="#">Search</a></Link>
+                     <Link to="/login"><button className='outline'>LogIn</button></Link>
+                      <Link to="/signup"><button className='contain'>SignUp</button></Link>
+                    
                     </>
                     ) : (
                         user.role == 'student' ? (
                             <>
-                             <a href="#">Home</a> 
-                             <a href="#">Search</a>
-                             <button className='outline'>SignOut</button>
-                             <button className='contain'>Profile</button>
+                              <Link to="/"><a href="">Home</a></Link>
+                              <Link to="/search"><a href="">Search</a></Link>
+                             <button className='outline' onClick={logoutHandler}>SignOut</button>
+                             <Link to="/profile"><button className='contain'>Profile</button></Link>
                             </>
 
                         ) : (
                             <>
-                              <button className='outline'>SignOut</button>
-                              <button className='contain'>Profile</button>
+                              <button className='outline' onClick={logoutHandler}>SignOut</button>
+                              <Link to="/owner/profile"><button className='contain'>Profile</button></Link>
                             </>
                         )
                     )

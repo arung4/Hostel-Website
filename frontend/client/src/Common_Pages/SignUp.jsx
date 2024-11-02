@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import "../styles/Signup.scss"; // Import your Sass styles
 import Navbar from '../components/Navbar';
-import Student from "../images/Students.jpg"; 
+import Student from "../images/students.avif"; 
+import { useNavigate } from 'react-router-dom';
+import {USER_API_END_POINT} from '../utils/constant.js'; 
+import axios from 'axios';
 
 const SignUp = () => {
   const [input, setInput] = useState({
@@ -10,8 +13,10 @@ const SignUp = () => {
     phoneNumber: '',
     password: '',
     role: 'student',
-    profileImage: null, // For handling the image file
+    file: '', // For handling the image file
   });
+
+   const navigate= useNavigate(); 
 
   // Change event handler for form fields
   const changeEventHandler = (e) => {
@@ -21,30 +26,48 @@ const SignUp = () => {
 
   // Change event handler for image upload
   const handleImageUpload = (e) => {
-    setInput({ ...input, profileImage: e.target.files[0] });
+    setInput({ ...input, file: e.target.files?.[0] });
   };
 
-//   // Handle form submission
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     console.log(input);
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(input);
 
-//     // Convert form data to FormData object (for image upload)
-//     const formData = new FormData();
-//     formData.append('username', input.username);
-//     formData.append('email', input.email);
-//     formData.append('phoneNumber', input.phoneNumber);
-//     formData.append('password', input.password);
-//     formData.append('role', input.role);
-//     formData.append('profileImage', input.profileImage);
+    // Convert form data to FormData object (for image upload)
+    const formData = new FormData();
+    formData.append('username', input.username);
+    formData.append('email', input.email);
+    formData.append('phoneNumber', input.phoneNumber);
+    formData.append('password', input.password);
+    formData.append('role', input.role);
+    console.log(formData); 
+    if(input.file){
+      formData.append("file", input.file); 
+    }
 
-//     // Send form data to backend (example using fetch)
-//     // fetch('/api/register', { method: 'POST', body: formData })
-//     //   .then((res) => res.json())
-//     //   .then((data) => console.log(data))
-//     //   .catch((error) => console.error('Error:', error));
-//   };
-
+    try {
+      // dispatch(setLoading(true));
+      const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
+          headers: { 'Content-Type': "multipart/form-data" },
+          withCredentials: true,
+      });
+      if (res.data.success) {
+          navigate("/login");
+          alert(res.data.message); 
+          // to display success message
+          // toast.success(res.data.message);
+      }
+  } catch (error) {
+      console.log(error);
+      alert(error.response.data.message);
+      // toast.error(error.response.data.message);
+  } finally{
+    //  dispatch(setLoading(false));
+      alert("completed"); 
+   }
+   }
+  
   return (
 
    <>
@@ -52,7 +75,7 @@ const SignUp = () => {
     
       <div className="registration-container">
 
-      <form className="registration-form" >
+      <form className="registration-form" onSubmit={handleSubmit} >
         <h2>Register</h2>
         {/* Username */}
         <div className="form-group">
@@ -63,7 +86,7 @@ const SignUp = () => {
             value={input.username}
             onChange={changeEventHandler}
             placeholder="Enter your username"
-            required
+           
           />
         </div>
 
@@ -76,7 +99,7 @@ const SignUp = () => {
             value={input.email}
             onChange={changeEventHandler}
             placeholder="your@gmail.com"
-            required
+            
           />
         </div>
 
@@ -89,7 +112,7 @@ const SignUp = () => {
             value={input.phoneNumber}
             onChange={changeEventHandler}
             placeholder="Enter your phone number"
-            required
+            
           />
         </div>
 
@@ -102,7 +125,7 @@ const SignUp = () => {
             value={input.password}
             onChange={changeEventHandler}
             placeholder="Enter your password"
-            required
+            
           />
         </div>
 
@@ -120,7 +143,7 @@ const SignUp = () => {
           <label htmlFor="profileImage">Profile Image</label>
           <input
             type="file"
-            name="profileImage"
+            name="file"
             accept="image/*"
             onChange={handleImageUpload}
             required
@@ -140,4 +163,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUp; 

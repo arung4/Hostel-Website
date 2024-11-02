@@ -1,0 +1,44 @@
+.hostel-details {
+    padding: 20px;
+
+    .slider-section {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto 30px auto;
+
+        .slider-item img, .slider-item video {
+            width: 100%;
+            border-radius: 8px;
+            max-height: 500px;
+            object-fit: cover;
+        }
+    }
+
+    .details-section {
+        max-width: 800px;
+        margin: 0 auto;
+
+        h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p, ul {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .occupancy-section, .amenities-section, .services-section, .description-section,
+        .policies-section, .food-menu-section, .student-types-section {
+            margin-bottom: 20px;
+
+            h3 {
+                font-size: 20px;
+                color: #333;
+                margin-bottom: 10px;
+            }
+        }
+    }
+}

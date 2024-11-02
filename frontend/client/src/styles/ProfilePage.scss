@@ -19,11 +19,36 @@
   
       .hostel-list-container {
         margin-top: 20px;
+        max-height: 400px;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+        scrollbar-width: thin;
         background-color: #fff;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         
+        .heading{
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+
+          .add-hostel{
+            padding: 10px 20px;
+            background-color: #14b8a6;
+            color: white;
+             border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 15px;
+            letter-spacing: 1px;
+  
+      &:hover {
+        background-color: #0d9989;
+      }
+          }
+        }
         h2 {
           margin-bottom: 15px;
           color: #14b8a6;
@@ -82,7 +107,7 @@
           align-items: center;
           background-color: #eaeaea;
           border-radius: 8px;
-          padding: 20px;
+          padding: 10px;
         }
       }
     }

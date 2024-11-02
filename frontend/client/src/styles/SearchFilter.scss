@@ -6,9 +6,13 @@
   
     h2 {
       margin-bottom: 20px;
-      color: #14b8a6;
+      color: #007BFF;
     }
-  
+     .groups{
+      display: flex;
+      align-items: center;
+      gap:40px;
+     }
     .form-group {
       margin-bottom: 15px;
   
@@ -39,7 +43,7 @@
         margin-bottom: 10px;
   
         button {
-          background-color: #14b8a6;
+          background-color: #007BFF;
           color: white;
           border: none;
           padding: 10px;
@@ -48,7 +52,7 @@
           transition: background-color 0.3s ease;
   
           &:hover {
-            background-color: #2980b9;
+            opacity: 0.85;
           }
         }
       }
@@ -83,7 +87,7 @@
   
     .submit-btn {
       padding: 10px 20px;
-      background-color: #14b8a6;
+      background-color: #007BFF;
       color: white;
       border: none;
       border-radius: 5px;
@@ -91,7 +95,7 @@
       transition: background-color 0.3s ease;
   
       &:hover {
-        background-color: #0f8a7b;
+        opacity: 0.85;
       }
     }
   }

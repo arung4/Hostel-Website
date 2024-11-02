@@ -20,14 +20,14 @@ export const register = async (req, res) => {
         success: false,
       });
     }
-    // const file = req.file;
-    // console.log("Sigup File is :", file);
-    // const fileUri = getDataUri(file);
-    // console.log("fileuri : ", fileUri);
-    // console.log("cloudinary se pehle");
-    // const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-    // console.log("Cloudinary ke baad");
-    // console.log("cloudResponse : ", cloudResponse);
+    const file = req.file;
+    console.log("Sigup File is :", file);
+    const fileUri = getDataUri(file);
+    console.log("fileuri : ", fileUri);
+    console.log("cloudinary se pehle");
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    console.log("Cloudinary ke baad");
+    console.log("cloudResponse : ", cloudResponse);
 
     const user = await User.findOne({ email });
     if (user) {
@@ -44,7 +44,7 @@ export const register = async (req, res) => {
       phoneNumber,
       password: hashedPassword,
       role,
-      profile: "", // change to cloudResponse.secure_url
+      profile: cloudResponse.secure_url, // change to cloudResponse.secure_url
       savedHostels:[]
     });
 
@@ -138,18 +138,34 @@ export const logout = async (req, res) => {
 // USER PROFILE UPDATE
 export const updateProfile = async (req, res) => {
   try {
-    const { username, email, phoneNumber} = req.body;
+    const { username, email, phoneNumber,password} = req.body;
 
+    if (!username || !email || !phoneNumber || !password) {
+      return res.status(400).json({
+        message: "Something is missing",
+        success: false,
+      });
+    }
+    console.log("usernmae : ", username); 
+    console.log("email : ", email); 
+    console.log("phoneNumber : ", phoneNumber); 
+    console.log("password : ", password); 
     // take the profile picture 
-    // const file = req.file;
-
-   // convert file to datauri 
-    // const fileUri = getDataUri(file);
+    const file = req.file;
+    if(!file){
+       return res.status(400).json(
+        { 
+          message:"No file uploaded",
+          success: false
+          });
+    }
+   //convert file to datauri 
+    const fileUri = getDataUri(file);
     
-    // Upload to Cloudinary, specifying resource_type as 'raw' for PDFs
-    // const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+   // Upload to Cloudinary, specifying resource_type as 'raw' for PDFs
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
 
-    // console.log("cloud response: ", cloudResponse);
+    console.log("cloud response: ", cloudResponse);
 
     const userId = req.Id; // middleware isAuthentication function
     let user = await User.findById(userId);
@@ -161,20 +177,20 @@ export const updateProfile = async (req, res) => {
       });
     }
     // updating data
-    if (username) user.username = fullname;
+    if (username) user.username = username;
     if (email) user.email = email;
     if (phoneNumber) user.phoneNumber = phoneNumber;
-    // user.profile= cloudResponse.secure_url; 
+    user.profile= cloudResponse.secure_url; 
 
     await user.save();
 
     user = {
       _id: user._id,
-      fullname: user.username,
+      username: user.username,
       email: user.email,
       phoneNumber: user.phoneNumber,
       role: user.role,
-      profile: "",  // change to user.profile
+      profile: user.profile,  
     };
 
     return res.status(200).json({

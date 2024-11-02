@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from './Card';
 import "../../styles/Section.scss";
-import student from "../../images/students.jpg";
+import student from "../../images/home_students.avif";
 
 const Section = () => {
   return (
