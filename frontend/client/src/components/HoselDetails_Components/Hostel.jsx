@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 import { useParams } from 'react-router-dom';
 import "../../styles/Hostel.scss";
 import { useSelector } from 'react-redux';
@@ -9,16 +10,25 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faBed, faWifi, faConciergeBell, faUserGraduate, faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import MapComponent from '../Map';
+import ScheduleVisitDialog from './Whatsapp';
+import axios from 'axios';
+import { USER_API_END_POINT } from '../../utils/constant';
 
    
 const Hostel = () => {
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const { hostels } = useSelector((store) => store.hostel);
   const {user} =useSelector((store)=>store.auth); 
 
   console.log("user : ", user);
   const { id } = useParams();
   const hostel = hostels?.find((hostel) => hostel._id === id);
-    
+    console.log("Role : ", user?.role); 
+
+    const ownerId= hostel.owner;
+    console.log("ownerid ", ownerId);
   const hostelmap= [
       hostel
   ]
@@ -26,11 +36,43 @@ const Hostel = () => {
     return <p>Hostel not found</p>;
   }
 
+  const handleScheduleVisit = async (name, mobile) => {
+    try {
+      // Send request to fetch the owner's contact information
+      const res = await axios.post(`${USER_API_END_POINT}/contact`, { ownerId }, {
+        withCredentials: true,
+      });
+  
+      // Check if the response contains the owner's contact
+        const ownerMobile = res.data?.phoneNumber; // Make sure this line is correct based on your API response structure
+        console.log("ownerMobile: ", ownerMobile);
+        if (!ownerMobile) {
+          alert("Owner's contact information is unavailable.");
+          return;
+        }
+        // Format the ownerMobile to include the country code
+        const formattedOwnerMobile = `+91 ${ownerMobile.replace(/^(\+?91)?/, '')}`; 
+
+        // Construct the WhatsApp message and URL
+        const message = `Hi, I am ${name}. I would like to schedule a visit to your hostel.`;
+           // Encode the message
+      const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=${formattedOwnerMobile}&text=${encodedMessage}`;
+  
+        // Open the WhatsApp link in a new tab
+        window.open(whatsappUrl, "_blank");
+      }catch(error) {
+      console.error("Failed to fetch the owner's contact information:", error);
+      alert(error.response?.data?.message || "An error occurred while fetching the owner's contact information.");
+    }
+  };
+  
+
   return (
     <div className="hostel-details colorful-background">
       <h1 className="hostel-name">{hostel.name}</h1>
       <p className="hostel-type">
-        <FontAwesomeIcon icon={faBed} className="icon" /> {hostel.type} Hostel
+        <FontAwesomeIcon icon={faBed} className="icon" /> Type : {hostel.type} 
       </p>
       <p className="hostel-address">
         <FontAwesomeIcon icon={faMapMarkerAlt} className="icon" /> {hostel.fullAddress}, {hostel.locality}, {hostel.city}
@@ -54,7 +96,7 @@ const Hostel = () => {
         <h3><FontAwesomeIcon icon={faBed} className="icon" /> Occupancy Prices</h3>
         {hostel.occupancy.map((occupancy, index) => (
           <p key={index}>
-            {occupancy.type}: ₹{occupancy.price}
+            {occupancy.type}: ₹{occupancy.price}/month
           </p>
         ))}
       </div>
@@ -130,8 +172,20 @@ const Hostel = () => {
         <h3><FontAwesomeIcon icon={faMapMarkerAlt} className="icon location-icon" />Location</h3>
         <MapComponent hostels={hostelmap}/>
       </div>
-    
-
+        {
+          user?.role === 'student' &&
+          <button
+          className="schedule-visit-button"
+          onClick={() => setIsDialogOpen(true)}
+        >
+          Schedule a Visit
+        </button>
+        }
+         <ScheduleVisitDialog
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+          onSubmit={handleScheduleVisit}
+      />
     </div>
   );
 };

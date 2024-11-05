@@ -1,6 +1,6 @@
 import express from "express";
 import { singleUpload } from "../middleware/multer.js";
-import { login, logout, register, updateProfile } from "../controllers/user.controller.js";
+import { getOwnerContact, login, logout, register, updateProfile } from "../controllers/user.controller.js";
 import isAuthenticated from "../middleware/isAuthenticated.js";
 
 
@@ -12,6 +12,7 @@ router.route("/register").post(singleUpload,register);  // add singleupload
 router.route("/login").post(login); 
 router.route("/logout").get(logout);
 router.route("/profile/update").put(isAuthenticated, singleUpload ,updateProfile);  //add singleupload
+router.route("/contact").post(isAuthenticated,getOwnerContact);
 
 
 export default router; 

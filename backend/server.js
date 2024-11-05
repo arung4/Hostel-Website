@@ -6,7 +6,7 @@ import cors from "cors";
 import userRoute from "./routes/user.route.js"; 
 import hostelRoute from "./routes/hostel.route.js"; 
 import reviewRoute from "./routes/rateReview.route.js"; 
-import saveHostelRoute from "./routes/savedHostel.route.js"; 
+// import saveHostelRoute from "./routes/savedHostel.route.js"; 
 
 
 const app=express(); 
@@ -32,7 +32,7 @@ const corsOptions = {
 app.use("/backend/v1/user", userRoute);
 app.use("/backend/v1/hostel", hostelRoute);
 app.use("/backend/v1/reviewRate", reviewRoute);
-app.use("/backend/v1/saveHostel", saveHostelRoute);
+// app.use("/backend/v1/saveHostel", saveHostelRoute);
 
 // serven listening  to a port 
 

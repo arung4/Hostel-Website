@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/HostelCard.scss"; // Importing the regular SCSS file
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -7,7 +7,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { deleteHostel, setLoading } from "../../redux/hostelslice";
 import { addSavedHostel, deleteSavedHostel } from "../../redux/authslice";
 
+
 const HostelCard = ({ hostel, role }) => {
+  
+
   const { loading, hostels } = useSelector((store) => store.hostel);
   const { user, savedHostels } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
@@ -54,38 +57,38 @@ const HostelCard = ({ hostel, role }) => {
     return singleOccupancy ? singleOccupancy.price : 0;
   };
 
-  const handleSave = () => {
-    // Check if the hostel is already in savedHostels
-    const alreadySaved = savedHostels?.some(
-      (savedHostel) => savedHostel._id === hostelId
-    );
+ // Check if the hostel is already saved
+ const isSaved = savedHostels.some((savedHostel) => savedHostel._id === hostelId);
 
-    if (!alreadySaved) {
-      dispatch(addSavedHostel(hostel)); // Dispatch action to save hostel
-      alert("Hostel saved successfully");
-    } else {
-      dispatch(deleteSavedHostel(hostel));
-      alert("Hostel is already saved");
-    }
-  };
+ const handleSaveToggle = () => {
+   if (isSaved) {
+     // If the hostel is already saved, remove it
+     dispatch(deleteSavedHostel(hostelId));
+     alert("Hostel removed from saved.");
+   } else {
+     // If the hostel is not saved, add it
+     dispatch(addSavedHostel(hostel));
+     alert("Hostel saved successfully.");
+   }
+ };
 
   const showDetails = () => {
-    if(role === 'owner'){
+    if (role === "owner") {
       navigate(`/owner/profile/hostel/${hostelId}`);
+    } else {
+      navigate(`/hostel/${hostelId}`);
     }
-    else{
-      navigate(`/hostel/${hostelId}`); 
-    }
-
   };
 
+ 
+
   // Convert amenities and services from string to array and limit to 3 items
-  // const amenitiesArray = hostel.amenities
-  //   ? hostel.amenities.split(",").slice(0, 3)
-  //   : [];
-  // const servicesArray = hostel.services
-  //   ? hostel.services.split(",").slice(0, 3)
-  //   : [];
+  const amenitiesArray = hostel.amenities
+    ? hostel.amenities.split(",").slice(0, 3)
+    : [];
+  const servicesArray = hostel.services
+    ? hostel.services.split(",").slice(0, 3)
+    : [];
 
   return (
     <div className="hostel-card">
@@ -109,7 +112,7 @@ const HostelCard = ({ hostel, role }) => {
 
           {/* Show only 2 amenities and services */}
 
-          {/* <div className="hostel-features">
+          <div className="hostel-features">
             <p>
               Amenities: {amenitiesArray.join(", ")}
               {amenitiesArray.length < hostel.amenities.split(",").length
@@ -122,7 +125,7 @@ const HostelCard = ({ hostel, role }) => {
                 ? ", ..."
                 : ""}
             </p>
-          </div> */}
+          </div>
         </div>
         {/* Conditionally render buttons based on role */}
         <div className="hostel-card-buttons">
@@ -137,12 +140,8 @@ const HostelCard = ({ hostel, role }) => {
             </>
           ) : (
             <>
-              <button className="schedule-visit-button">
-                Schedule a Visit
-              </button>
-              <button className="save-hostel-button" onClick={handleSave}>
-                Save Hostel
-              </button>
+              <button className="save-hostel-button" onClick={handleSaveToggle}>{
+                isSaved ? "Unsave Hostel" : "Saved Hostel"}</button>
             </>
           )}
         </div>

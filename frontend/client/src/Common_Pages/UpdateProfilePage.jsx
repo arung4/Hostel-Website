@@ -86,7 +86,7 @@ const UpdateProfile = () => {
           <input
             type="text"
             name="username"
-            value={user.username}
+            value={input.username}
             onChange={changeEventHandler}
             required
           />
@@ -98,7 +98,7 @@ const UpdateProfile = () => {
           <input
             type="email"
             name="email"
-            value={user.email}
+            value={input.email}
             onChange={changeEventHandler}
             required
           />
@@ -110,7 +110,7 @@ const UpdateProfile = () => {
           <input
             type="text"
             name="phoneNumber"
-            value={user.phoneNumber}
+            value={input.phoneNumber}
             onChange={changeEventHandler}
             required
           />
@@ -122,7 +122,7 @@ const UpdateProfile = () => {
           <input
             type="password"
             name="password"
-            value={user.password}
+            value={input.password}
             onChange={changeEventHandler}
           />
         </div>

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import  '../styles/SearchFilter.scss';
 import axios from 'axios';
 import { HOSTEL_API_END_POINT } from '../utils/constant';
 import { useDispatch, useSelector } from 'react-redux';
 import {setFilterHostel} from "../redux/authslice.js";
+import { useLocation } from 'react-router-dom';
 
 const SearchFilter = () => {
   const { filterHostel } = useSelector((store) => store.auth);
@@ -23,6 +24,20 @@ const SearchFilter = () => {
     priceMax:"",
     studentType:"",
   });
+
+
+  const location = useLocation(); // Get location object
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search); // Parse query params
+    const name = query.get('name'); // Get the hostel name from query params
+    if (name) {
+      setFilters((prev) => ({ ...prev, name })); // Set name in filters
+      handleSearch(); 
+    }
+  }, [location.search]); // Run effect when location.search changes
+
+
 
   // Handle input change for simple fields
   const handleChange = (e) => {

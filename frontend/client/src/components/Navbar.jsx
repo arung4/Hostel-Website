@@ -5,7 +5,7 @@ import { setUser } from "../redux/authslice.js";
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import { USER_API_END_POINT } from '../utils/constant.js';
-
+import HostelImage from "../images/hostel.png";
 
 
 function Navbar (){
@@ -30,6 +30,7 @@ function Navbar (){
     return (
         <div className="navbar">
             <div className="logo">
+                <img src={HostelImage} alt="" srcset="" />
                 <h1>Find My Hostel</h1>
             </div>
             <div className="left"> 

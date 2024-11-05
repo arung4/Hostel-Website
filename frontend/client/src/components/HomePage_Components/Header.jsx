@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import "../../styles/Header.scss"; 
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () =>{
  
   const [input,setInput] = useState(""); 
-
+  const navigate= useNavigate();
+  
   const changeInputHandler = (e) => {
     setInput(e.target.value);
   }
-
+  
+  const handleSearch = () => {
+    if (input.trim()) {
+      // Navigate to the search page with the hostel name as a query parameter
+      navigate(`/search?name=${encodeURIComponent(input)}`);
+    }
+  }
   return (
       <div className="header">
         
@@ -28,8 +36,8 @@ const Header = () =>{
          placeholder="Search your hostel" />
          </div>
          <div className="right">
-            <GpsFixedIcon htmlColor='#60c3ad'/>
-            <button className='search'>Search</button>
+            <GpsFixedIcon htmlColor='#007bff'/>
+            <button  onClick={handleSearch}    className='search'>Search</button>
          </div>
        </div>
 

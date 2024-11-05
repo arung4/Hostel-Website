@@ -1,82 +1,50 @@
-import React, { useState } from "react";
-import "../../styles/whatsapp.scss";
+import React, { useState } from 'react';
+import "../../styles/ScheduleVisitDialog.css" // Importing the CSS file for styling
 
-const WhatsAppNotification = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    mobileNumber: "",
-    getUpdates: true,
-    agreeToTerms: false,
-  });
+function ScheduleVisitDialog({ isOpen, onClose, onSubmit }) {
+    const [name, setName] = useState('');
+    const [mobile, setMobile] = useState('');
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    if (!isOpen) return null;
 
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setFormData({ ...formData, [name]: checked });
-  };
+    const handleSubmit = () => {
+        onSubmit(name, mobile);
+        onClose();
+    };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // handle form submission
-    console.log("Form submitted:", formData);
-  };
-
-  return (
-    <div className="whatsapp-notification">
-      <div className="tabs">
-        <button className="tab active">Schedule a Visit</button>
-        <button className="tab">Reserve Now</button>
-      </div>
-      <form onSubmit={handleSubmit}>
-        <div className="input-group">
-             <div className="input">
-                <input type="text" 
-                name="name" 
-                placeholder="Name"
-                />
-             </div>
-             <div className="input">
-                <input type="tel" 
-                name="Number" 
-                 placeholder=" +91 Mobile Number" />
-             </div>
+    return (
+        <div className="whatsapp-dialog-overlay">
+            <div className="whatsapp-dialog">
+                <header className="whatsapp-header">
+                    <div className="whatsapp-avatar"></div>
+                    <div className="whatsapp-title">Schedule a Visit</div>
+                    <button onClick={onClose} className="whatsapp-close">X</button>
+                </header>
+                <div className="whatsapp-body">
+                    <div className="whatsapp-message">
+                        <p>Enter your details below to schedule a visit:</p>
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Your Name"
+                        className="whatsapp-input"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Mobile Number"
+                        className="whatsapp-input"
+                        value={mobile}
+                        onChange={(e) => setMobile(e.target.value)}
+                    />
+                </div>
+                <footer className="whatsapp-footer">
+                    <button onClick={handleSubmit} className="whatsapp-send-btn">Send Message</button>
+                </footer>
+            </div>
         </div>
-       
-        <div className="checkbox-group">
-          <label>
-            <input
-              type="checkbox"
-              name="getUpdates"
-              checked={formData.getUpdates}
-              onChange={handleCheckboxChange}
-            />
-            Get updates over WhatsApp
-          </label>
-        </div>
-        <div className="checkbox-group terms">
-          <label>
-            <input
-              type="checkbox"
-              name="agreeToTerms"
-              checked={formData.agreeToTerms}
-              onChange={handleCheckboxChange}
-              required
-            />
-            I have read and agreed to the{" "}
-            <a href="/terms">terms and conditions</a> and{" "}
-            <a href="/privacy">privacy policy</a>.
-          </label>
-        </div>
-        <button type="submit" className="submit-btn">
-          Schedule a Visit
-        </button>
-      </form>
-    </div>
-  );
-};
+    );
+}
 
-export default WhatsAppNotification;
+export default ScheduleVisitDialog;

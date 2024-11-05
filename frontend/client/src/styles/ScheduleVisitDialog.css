@@ -1,0 +1,117 @@
+/* Blurred overlay without flickering */
+.whatsapp-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    pointer-events: auto;
+}
+
+/* Dialog box styling */
+.whatsapp-dialog {
+    width: 90%;
+    max-width: 400px;
+    background-color: #ece5dd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 1001;
+}
+
+/* Add a blur effect to background content */
+.main-profile-content {
+    transition: filter 0.3s ease;  /* Smooth transition to avoid flicker */
+    filter: blur(4px);
+}
+
+/* Apply blur only when dialog is open */
+.is-dialog-open .main-profile-content {
+    filter: blur(8px);
+}
+
+/* Header styling */
+.whatsapp-header {
+    display: flex;
+    align-items: center;
+    background-color: #075e54;
+    padding: 12px;
+    color: white;
+}
+
+.whatsapp-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #d9d9d9;
+    margin-right: 10px;
+}
+
+.whatsapp-title {
+    flex: 1;
+    font-weight: bold;
+}
+
+.whatsapp-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Body styling */
+.whatsapp-body {
+    padding: 15px;
+}
+
+.whatsapp-message {
+    background-color: #dcf8c6;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #4a4a4a;
+}
+
+.whatsapp-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    color: #333;
+}
+
+/* Footer styling */
+.whatsapp-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+.whatsapp-send-btn {
+    background-color: #25d366;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.whatsapp-send-btn:hover {
+    background-color: #1ebf57;
+}

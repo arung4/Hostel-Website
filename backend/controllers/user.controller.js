@@ -45,7 +45,7 @@ export const register = async (req, res) => {
       password: hashedPassword,
       role,
       profile: cloudResponse.secure_url, // change to cloudResponse.secure_url
-      savedHostels:[]
+      savedHostels: [],
     });
 
     return res.status(201).json({
@@ -138,7 +138,7 @@ export const logout = async (req, res) => {
 // USER PROFILE UPDATE
 export const updateProfile = async (req, res) => {
   try {
-    const { username, email, phoneNumber,password} = req.body;
+    const { username, email, phoneNumber, password } = req.body;
 
     if (!username || !email || !phoneNumber || !password) {
       return res.status(400).json({
@@ -146,23 +146,22 @@ export const updateProfile = async (req, res) => {
         success: false,
       });
     }
-    console.log("usernmae : ", username); 
-    console.log("email : ", email); 
-    console.log("phoneNumber : ", phoneNumber); 
-    console.log("password : ", password); 
-    // take the profile picture 
+    console.log("usernmae : ", username);
+    console.log("email : ", email);
+    console.log("phoneNumber : ", phoneNumber);
+    console.log("password : ", password);
+    // take the profile picture
     const file = req.file;
-    if(!file){
-       return res.status(400).json(
-        { 
-          message:"No file uploaded",
-          success: false
-          });
+    if (!file) {
+      return res.status(400).json({
+        message: "No file uploaded",
+        success: false,
+      });
     }
-   //convert file to datauri 
+    //convert file to datauri
     const fileUri = getDataUri(file);
-    
-   // Upload to Cloudinary, specifying resource_type as 'raw' for PDFs
+
+    // Upload to Cloudinary, specifying resource_type as 'raw' for PDFs
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
 
     console.log("cloud response: ", cloudResponse);
@@ -180,7 +179,7 @@ export const updateProfile = async (req, res) => {
     if (username) user.username = username;
     if (email) user.email = email;
     if (phoneNumber) user.phoneNumber = phoneNumber;
-    user.profile= cloudResponse.secure_url; 
+    user.profile = cloudResponse.secure_url;
 
     await user.save();
 
@@ -190,7 +189,7 @@ export const updateProfile = async (req, res) => {
       email: user.email,
       phoneNumber: user.phoneNumber,
       role: user.role,
-      profile: user.profile,  
+      profile: user.profile,
     };
 
     return res.status(200).json({
@@ -200,5 +199,36 @@ export const updateProfile = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+  }
+};
+
+// Route handler to get the user's phone number by ID
+export const getOwnerContact = async (req, res) => {
+  const { ownerId } = req.body;
+  console.log("ownerId: ", ownerId);
+  // Check if userId is provided
+  if (!ownerId) {
+    return res.status(400).json({ message: "User ID is required." });
+  }
+
+  try {
+    // Fetch only the phone number field of the user with the given ID
+    const user = await User.findById(ownerId).select("phoneNumber");
+
+    // If no user is found, return a 404 error
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+    console.log("number : ", user.phoneNumber);
+    const phoneNumber= user.phoneNumber;
+    // Send back only the phone number in the response
+    return res.status(200).json({ phoneNumber,
+      message: "Owner's number fetched successfully",
+     });
+  } catch (error) {
+    console.error("Error fetching user's phone number:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the phone number." });
   }
 };

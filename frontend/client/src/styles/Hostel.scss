@@ -69,5 +69,23 @@
       margin-top: 1.5rem;
       font-size: 1.3rem;
     }
+    button{
+      margin-top: 15px;
+      padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    
+    &.schedule-visit-button {
+      background-color: #007BFF;
+      color: white;
+    }
+    &:hover {
+      opacity: 0.85;
+    }
+    }
   }
   

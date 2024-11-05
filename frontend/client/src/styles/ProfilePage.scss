@@ -35,7 +35,7 @@
 
           .add-hostel{
             padding: 10px 20px;
-            background-color: #14b8a6;
+            background-color: #007bff;
             color: white;
              border: none;
             border-radius: 5px;
@@ -45,13 +45,13 @@
             letter-spacing: 1px;
   
       &:hover {
-        background-color: #0d9989;
+        opacity: 0.85;
       }
           }
         }
         h2 {
           margin-bottom: 15px;
-          color: #14b8a6;
+          color: #007bff;
         }
   
         .hostel-cards {
@@ -97,7 +97,7 @@
         
         h2 {
           margin-bottom: 15px;
-          color: #3498db;
+          color: #007bff;
         }
   
         .map-placeholder {

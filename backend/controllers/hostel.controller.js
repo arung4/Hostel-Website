@@ -114,7 +114,7 @@ export const getHostelsByFilters = async (req, res) => {
     priceMax,
     studentType,
   } = req.query;
-   
+
   console.log("req query : ", req.query);
   try {
     let filters = {};
@@ -132,20 +132,21 @@ export const getHostelsByFilters = async (req, res) => {
     if (studentType) {
       filters["studentTypes.type"] = { $regex: studentType, $options: "i" };
     }
-    
+
     console.log("Filters : ", filters);
 
     const hostels = await Hostel.find(filters);
 
     console.log("Hostels list: ", hostels);
     res.status(200).json({
-       hostels,
-       message: "Hostels fetched successfully"
-       });
+      hostels,
+      message: "Hostels fetched successfully",
+    });
   } catch (error) {
-    res.status(500).json({ 
+    res.status(500).json({
       message: "Something went wrong",
-      error });
+      error,
+    });
   }
 };
 
@@ -164,5 +165,28 @@ export const getHostelById = async (req, res) => {
     res.status(200).json({ message: "Hosel found Successfully", hostel });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong", error });
+  }
+};
+
+// 6. Controller function to fetch hostels by owner ID
+
+export const getHostelsByOwner = async (req, res) => {
+  const { ownerId } = req.params;
+
+  try {
+    // Query the database for hostels where the owner matches ownerId
+    const hostels = await Hostel.find({ owner: ownerId });
+
+    if (!hostels || hostels.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No hostels found for this owner" });
+    }
+
+    // Respond with the hostels data
+    res.status(200).json(hostels);
+  } catch (error) {
+    console.error("Error fetching hostels by owner:", error);
+    res.status(500).json({ message: "Server error. Unable to fetch hostels." });
   }
 };

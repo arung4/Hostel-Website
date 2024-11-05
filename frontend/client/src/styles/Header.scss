@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: center;
     gap:20px;
-    background-color: rgb(186, 233, 186);
+    background-color: #007bff;
     border-radius: 8px;
 
     .content {
@@ -19,7 +19,7 @@
   
       p {
         font-size: 1.2rem;
-        color: gray;
+        color: black;
       }
     }
 
@@ -63,7 +63,7 @@
                 border:none;
                 letter-spacing: 1px;
                 font-size: 15px;
-                background-color: #60c3ad;
+                background-color: #007bff;
                 color: white;
                 font-weight: bold;
                 border-radius: 8px;
