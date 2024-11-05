@@ -49,10 +49,14 @@ const approuter = createBrowserRouter(
       element : <SearchPage/>
      },
      {
-      path: "/hostel",
+      path: "/hostel/:id",
       element: <HostelDetails/>
      },
      // protected route for onwer
+     {
+       path : "/owner/profile/hostel/:id",
+       element: <ProtectedRoute><HostelDetails/></ProtectedRoute>
+     },
      {
       path: "/owner/profile",
       element: <ProtectedRoute><ProfilePage/></ProtectedRoute> 

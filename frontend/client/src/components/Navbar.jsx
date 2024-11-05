@@ -30,7 +30,7 @@ function Navbar (){
     return (
         <div className="navbar">
             <div className="logo">
-                <h1><p>Find My Hostel</p></h1>
+                <h1>Find My Hostel</h1>
             </div>
             <div className="left"> 
 
