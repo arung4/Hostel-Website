@@ -1,102 +1,130 @@
 .hostel-card {
   display: flex;
   flex-direction: row;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 16px 0;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  margin: 20px 0;
   background-color: #fff;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  border: 1px solid #e0e0e0;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
   }
 }
 
 .hostel-image-section {
-  width: 35%;
-  height:250px;
+  width: 40%;
+  height: 400px;
   overflow: hidden;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease;
   }
 
   .hostel-card:hover img {
-    transform: scale(1.05);
+    transform: scale(1.08);
   }
 }
 
 .hostel-info-section {
-  padding: 16px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 65%;
-}
+  width: 60%;
 
-.hostel-info-section h3 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #333;
-}
+  h3 {
+    margin: 0;
+    font-size: 1.6rem;
+    color: #333;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
 
-.hostel-info-section p {
-  margin: 4px 0;
-  font-size: 0.9rem;
-  color: #555;
-}
+  p {
+    margin: 6px 0;
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+  }
 
-.hostel-features {
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  .icon {
+    margin-right: 6px;
+    color: #ffb400;
+  }
+
+  .hostel-features {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    p {
+      display: flex;
+      align-items: center;
+    }
+  }
 }
 
 .hostel-card-buttons {
-  
   display: flex;
-  width:100%;
-  gap: 10px;
-  margin-top: 16px;
+  gap: 12px;
+  margin-top: 20px;
 
   button {
     flex: 1;
-    padding: 10px;
+    padding: 12px;
     border: none;
-    border-radius: 6px;
-    font-size: 0.9rem;
+    border-radius: 8px;
+    font-size: 1rem;
     cursor: pointer;
+    font-weight: 600;
     transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
     &.update-button {
       background-color: #4CAF50;
       color: white;
+
+      &:hover {
+        background-color: #43a047;
+      }
     }
 
     &.delete-button {
       background-color: #f44336;
       color: white;
+
+      &:hover {
+        background-color: #e53935;
+      }
     }
 
     &.schedule-visit-button {
       background-color: #007BFF;
       color: white;
+
+      &:hover {
+        background-color: #0069d9;
+      }
     }
 
     &.save-hostel-button {
       background-color: #FFC107;
       color: white;
-    }
 
-    &:hover {
-      opacity: 0.85;
+      &:hover {
+        background-color: #ffb300;
+      }
     }
   }
 }
-

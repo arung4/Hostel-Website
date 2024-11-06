@@ -33,7 +33,7 @@ const SearchFilter = () => {
     const name = query.get('name'); // Get the hostel name from query params
     if (name) {
       setFilters((prev) => ({ ...prev, name })); // Set name in filters
-      handleSearch(); 
+      handleSearch();  
     }
   }, [location.search]); // Run effect when location.search changes
 

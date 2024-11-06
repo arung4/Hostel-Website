@@ -163,11 +163,14 @@ const Hostel = () => {
       </div>
 
       {/* Owner Information */}
-      <div className="hostel-owner colorful-section">
+      {
+        user?.role === "owner" && 
+        <div className="hostel-owner colorful-section">
         <h3><FontAwesomeIcon icon={faAddressCard} className="icon" /> Owner Information</h3>
         <p>Name: {user.username}</p>
         <p>Contact: {user.phoneNumber}</p>
       </div>
+      }
       <div className="location colorful-section">
         <h3><FontAwesomeIcon icon={faMapMarkerAlt} className="icon location-icon" />Location</h3>
         <MapComponent hostels={hostelmap}/>

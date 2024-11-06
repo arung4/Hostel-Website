@@ -6,7 +6,8 @@ import { HOSTEL_API_END_POINT } from "../../utils/constant";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteHostel, setLoading } from "../../redux/hostelslice";
 import { addSavedHostel, deleteSavedHostel } from "../../redux/authslice";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBed, faConciergeBell, faMapMarkerAlt, faWifi } from "@fortawesome/free-solid-svg-icons";
 
 const HostelCard = ({ hostel, role }) => {
   
@@ -102,9 +103,13 @@ const HostelCard = ({ hostel, role }) => {
       <div className="hostel-info-section">
         <div className="info" onClick={showDetails}>
           <h3>{hostel.name}</h3>
-          <p>OwnerId: {hostel.owner}</p>
-          <p>{hostel.fullAddress}</p>
-          <p>Type: {hostel.type}</p>
+          {/* <p>OwnerId: {hostel.owner}</p> */}
+          <p>
+          <FontAwesomeIcon icon={faMapMarkerAlt} className="icon" /> 
+            {hostel.fullAddress}</p>
+          <p>
+          <FontAwesomeIcon icon={faBed} className="icon" /> 
+            Type: {hostel.type}</p>
           <p>
             Price (Single Occupancy):{" "}
             {getSingleOccupancyPrice(hostel.occupancy)}
@@ -113,13 +118,13 @@ const HostelCard = ({ hostel, role }) => {
           {/* Show only 2 amenities and services */}
 
           <div className="hostel-features">
-            <p>
+            <p> <FontAwesomeIcon icon={faWifi} className="icon" />
               Amenities: {amenitiesArray.join(", ")}
               {amenitiesArray.length < hostel.amenities.split(",").length
                 ? ", ..."
                 : ""}
             </p>
-            <p>
+            <p><FontAwesomeIcon icon={faConciergeBell} className="icon" />
               Services: {servicesArray.join(", ")}
               {servicesArray.length < hostel.services.split(",").length
                 ? ", ..."
