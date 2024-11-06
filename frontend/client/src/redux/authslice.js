@@ -72,7 +72,7 @@ const authSlice = createSlice({
         state.filterHostel = { ...state.filterHostel, ...action.payload };
       },
       resetFilterHostel: (state) => {
-        state.filterHostel = {};
+        state.filterHostel = [];
       },
   },
   // extraReducers: (builder) => {

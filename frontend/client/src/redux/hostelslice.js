@@ -6,7 +6,7 @@ import { HOSTEL_API_END_POINT } from "../utils/constant";
 export const fetchHostelsByOwner = createAsyncThunk(
     'hostels/fetchByOwner',
     async (ownerId) => {
-      const response = await axios.get(`${HOSTEL_API_END_POINT}/owner/${ownerId}`, {
+      const response = await axios.get(`${HOSTEL_API_END_POINT}/owner`, {ownerId}, {
         withCredentials: true,
       });
       return response.data; // Assuming the API returns an array of hostels

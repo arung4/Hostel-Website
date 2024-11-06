@@ -146,7 +146,7 @@ const HostelCard = ({ hostel, role }) => {
           ) : (
             <>
               <button className="save-hostel-button" onClick={handleSaveToggle}>{
-                isSaved ? "Unsave Hostel" : "Saved Hostel"}</button>
+                isSaved ? "Unsave Hostel" : "Save Hostel"}</button>
             </>
           )}
         </div>

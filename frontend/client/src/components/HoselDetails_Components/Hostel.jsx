@@ -181,7 +181,7 @@ const Hostel = () => {
           className="schedule-visit-button"
           onClick={() => setIsDialogOpen(true)}
         >
-          Schedule a Visit
+          Contact Owner
         </button>
         }
          <ScheduleVisitDialog

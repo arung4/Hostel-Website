@@ -171,12 +171,12 @@ export const getHostelById = async (req, res) => {
 // 6. Controller function to fetch hostels by owner ID
 
 export const getHostelsByOwner = async (req, res) => {
-  const { ownerId } = req.params;
-
+  const { ownerId } = req.body;
+  console.log("ownerId ", ownerId);                                  
   try {
     // Query the database for hostels where the owner matches ownerId
     const hostels = await Hostel.find({ owner: ownerId });
-
+      console.log("hostels : ", hostels);
     if (!hostels || hostels.length === 0) {
       return res
         .status(404)

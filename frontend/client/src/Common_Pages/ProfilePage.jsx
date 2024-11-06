@@ -15,18 +15,15 @@ const ProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const id = user?._id;
-  console.log("Owner: ", id);
+  const ownerId = user?._id;
+  console.log("Owner: ", ownerId);
 
-  useEffect(() => {
-    if (user?.role === "owner" && id) {
-      dispatch(fetchHostelsByOwner(id));
-    } 
-  }, [dispatch, user, id]);
+  
 
-  // Filter hostels based on user role
-  const displayedHostels =
-    user?.role === "owner" ? hostels : savedHostels || [];
+// Filter hostels based on user role
+const displayedHostels = user?.role === "owner" 
+    ? hostels.filter((hostel) => hostel.owner === ownerId) 
+    : savedHostels || [];
 
     console.log("Displayed Hostels : ", displayedHostels);
 
