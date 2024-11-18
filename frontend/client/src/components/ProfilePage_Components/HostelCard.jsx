@@ -21,12 +21,13 @@ const HostelCard = ({ hostel, role }) => {
 
   const handleDelete = async () => {
     try {
+  
       dispatch(setLoading(true));
       const res = await axios.delete(
         `${HOSTEL_API_END_POINT}/delete/${hostelId}`,
         { withCredentials: true }
       );
-
+      dispatch(deleteHostel(hostelId));
       if (res) {
         dispatch(deleteHostel(hostelId)); // Pass the hostel ID to delete from Redux store
         // alert(res.data.message);
@@ -51,9 +52,9 @@ const HostelCard = ({ hostel, role }) => {
   const getSingleOccupancyPrice = (occupancy) => {
     // Find the single occupancy object
     const singleOccupancy = hostel.occupancy.find(
-      (item) => item.type === "single"
+      (item) => item.type === "single" || "double"
     );
-    console.log("price is ", singleOccupancy.price); // Example usage: console.log(getSingleOccupancyPrice() === 1000); // Output: 1000
+    // console.log("price is ", singleOccupancy.price); // Example usage: console.log(getSingleOccupancyPrice() === 1000); // Output: 1000
     // Return the price if found, otherwise return 0
     return singleOccupancy ? singleOccupancy.price : 0;
   };
@@ -111,7 +112,7 @@ const HostelCard = ({ hostel, role }) => {
           <FontAwesomeIcon icon={faBed} className="icon" /> 
             Type: {hostel.type}</p>
           <p>
-            Price (Single Occupancy):{" "}
+            Price: (Single Occupancy):{" "}
             {getSingleOccupancyPrice(hostel.occupancy)}
           </p>
 

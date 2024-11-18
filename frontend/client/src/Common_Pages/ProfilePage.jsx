@@ -46,7 +46,8 @@ const displayedHostels = user?.role === "owner"
           <div className="hostel-list-container">
             <div className="heading">
               <h2>
-                {user?.role === "owner" ? "My Hostels" : "My Saved Hostels"}
+                {user?.role === "owner" ? "My Hostels" : "My Saved Hostels"} 
+                {(displayedHostels.length)}
               </h2>
               {user?.role === "owner" ? (
                 <Link to="/owner/profile/addhostel">

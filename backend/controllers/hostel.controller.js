@@ -59,6 +59,8 @@ export const addHostel = async (req, res) => {
 export const deleteHostel = async (req, res) => {
   const { id } = req.params; // Hostel ID
 
+  console.log("Hosel id : ", id);
+
   try {
     // Find the hostel by ID and delete it
     const deletedHostel = await Hostel.findByIdAndDelete(id);

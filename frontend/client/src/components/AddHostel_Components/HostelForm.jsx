@@ -6,7 +6,6 @@ import { HOSTEL_API_END_POINT } from "../../utils/constant.js";
 import axios from "axios";
 import { setLoading, addHostel } from "../../redux/hostelslice.js";
 
-
 const HostelForm = ({ images, videos }) => {
   const { loading, hostel, hostels } = useSelector((store) => store.hostel);
   const navigate = useNavigate();
@@ -155,6 +154,7 @@ const HostelForm = ({ images, videos }) => {
           >
             <option value="male">Male</option>
             <option value="female">Female</option>
+            <option value="pg">PG</option>
           </select>
         </div>
 

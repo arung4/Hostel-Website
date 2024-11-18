@@ -106,6 +106,7 @@ const SearchFilter = () => {
           <option value="all">All</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
+          <option value="pg">PG</option>
         </select>
       </div>
 

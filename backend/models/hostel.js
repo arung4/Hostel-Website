@@ -8,7 +8,7 @@ const hostelSchema = new mongoose.Schema(
     locality: { type: String, required: true },
     landmark: { type: String },
     fullAddress: { type: String, required: true },
-    type: { type: String, enum: ["male", "female"], required: true }, // Male or Female hostel
+    type: { type: String, enum: ["male", "female","pg"], required: true }, // Male or Female hostel
     images: [
       {
         type: String,
