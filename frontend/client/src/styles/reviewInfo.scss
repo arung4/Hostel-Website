@@ -1,0 +1,32 @@
+.reviews-list {
+    padding: 1rem;
+    border-top: 1px solid #ddd;
+    margin-top: 2rem;
+  }
+  
+  .review-card {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .review-card p {
+    margin: 0.5rem 0;
+  }
+  
+  .review-card strong {
+    font-size: 1.1rem;
+  }
+  .review-header{
+    display: flex;
+  }
+.profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1rem;
+  border: 2px solid #ddd;
+}

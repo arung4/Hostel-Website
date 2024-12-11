@@ -7,10 +7,17 @@
     max-width: 500px;
     margin: 0 auto;
     text-align: center;
-  
+   
+    .update-profile-form{
+      display: flex;
+      flex-direction: column;
+    
+    }
     .profile-image {
-      margin-bottom: 20px;
-  
+      margin-bottom: 40px;
+      width: 100px;
+      height: 100px;
+      margin-left: 40%;
       img {
         width: 100px;
         height: 100px;

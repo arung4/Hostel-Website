@@ -29,9 +29,9 @@ const Profile = () => {
         <div className="profile-details">
           <p><strong>Username:</strong>{user.username}</p> 
           <p><strong>Email:</strong> {user.email}</p>
-          <p><strong>Phone Number:</strong>{user.phoneNumber}</p>
+          <p><strong>Phone Number:</strong> +91{user.phoneNumber}</p>
           <p><strong>Role:</strong>{user.role}</p>
-          <p><strong>Id:</strong>{user._id}</p>
+          {/* <p><strong>Id:</strong>{user._id}</p> */}
         </div>
 
         {/* Update Profile Button */}
